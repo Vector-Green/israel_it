@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: node:18
+    container_name: backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - /backend
+      - /backend/node_modules
+      - /frontend
+      - /frontend/node_modules
+      - /static
+    working_dir: /backend
+    command: npm run start
+    links:
+      - redis
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
